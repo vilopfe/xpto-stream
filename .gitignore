@@ -1,0 +1,75 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Arquivos de build Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Spring Boot
+application-local.properties
+application-*.local.properties
+application-dev.properties
+application-test.properties
+application-prod.properties
+spring.log
+
+# IDEs
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+# Eclipse
+.project
+.classpath
+.settings/
+# VS Code
+.vscode/
+
+# Arquivos de log
+*.log
+logs/
+*.pid
+
+# Arquivos temporários do SO
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.bak
+
+# Arquivos temporários e swap
+*.swp
+*.swo
+*~
+*.tmp
+*.temp
+
+# Arquivos de backup
+*.bak
+*.old
+*.orig
+
+# Arquivos de patch/crash
+*.patch
+*.diff
+*.stackdump
+
+# Arquivos de configuração de ambiente
+.env
+.env.*
+
+# Arquivos de build de todos os submódulos
+**/target/
+**/*.jar
+
+# Arquivos de cache
+.cache/
