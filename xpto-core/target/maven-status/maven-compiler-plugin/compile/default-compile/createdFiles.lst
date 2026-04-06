@@ -1,0 +1,5 @@
+com\xptostream\core\domain\UserEvent.class
+com\xptostream\core\domain\EventType.class
+com\xptostream\core\domain\UserInterest.class
+com\xptostream\core\usecase\ProcessUserEventUseCaseImpl.class
+com\xptostream\core\usecase\ProcessUserEventUseCase.class
