@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: xpto-stream
+  threads:
+    virtual:
+      enabled: true
+  cloud:
+    function:
+      definition: userEventConsumer # EXATAMENTE o nome do seu @Bean
+    stream:
+      bindings:
+        userEventConsumer-in-0:
+          destination: user-events
+          group: user-event-group
+          # Removido: useNativeDecoding
+      kafka:
+        binder:
+          brokers: localhost:9092
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
