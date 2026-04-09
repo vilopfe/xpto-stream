@@ -8,7 +8,7 @@ services:
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
-      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:29092,PLAINTEXT_HOST://127.0.0.1:9092'
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
@@ -16,13 +16,30 @@ services:
       KAFKA_PROCESS_ROLES: 'broker,controller'
       KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:29093'
       KAFKA_LISTENERS: 'PLAINTEXT://0.0.0.0:29092,CONTROLLER://0.0.0.0:29093,PLAINTEXT_HOST://0.0.0.0:9092'
-      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
+      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT_HOST'
       KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
-      KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
+      KAFKA_LOG_DIRS: '/var/lib/kafka/data'
       CLUSTER_ID: 'MkU2OEVBNTcwNTJENDM2Qk'
 
-  dynamodb:
+  dynamodb-local:
     image: amazon/dynamodb-local:latest
-    container_name: dynamodb
+    container_name: dynamodb-local
     ports:
       - "8000:8000"
+    volumes:
+      - ./docker/dynamodb:/home/dynamodblocal/data
+      - ./kafka-logs:/var/lib/kafka/data
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data"
+
+  dynamo-setup:
+    image: alpine:latest
+    container_name: dynamo-setup
+    depends_on:
+      - dynamodb-local
+    entrypoint: ["/bin/sh", "-c"]
+    command: 
+      - |
+        apk add --no-cache aws-cli;
+        sleep 5;
+        aws dynamodb create-table --table-name user_interests --attribute-definitions AttributeName=userId,AttributeType=S AttributeName=category,AttributeType=S --key-schema AttributeName=userId,KeyType=HASH AttributeName=category,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 --endpoint-url http://dynamodb-local:8000 --region us-east-1 || echo 'Tabela ja existe';
+        echo '🚀 Setup do DynamoDB finalizado com sucesso!';

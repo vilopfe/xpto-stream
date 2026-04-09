@@ -1,3 +1,8 @@
 package com.xptostream.core.domain;
 
-public record UserEvent(String userId, String category, EventType type) {}
+public record UserEvent
+    (   
+        String userId, 
+        String category, 
+        EventType eventType
+    ) {}

@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: xpto-stream
   threads:
@@ -12,10 +14,18 @@ spring:
         userEventConsumer-in-0:
           destination: user-events
           group: user-event-group
-          # Removido: useNativeDecoding
+          content-type: application/json
       kafka:
         binder:
           brokers: localhost:9092
+      aws:
+        region:
+          static: us-east-1
+        credentials:
+          access-key: "fakeMyKey"
+          secret-key: "fakeMySecret"
+        dynamodb:
+          endpoint: http://localhost:8000
 
 management:
   endpoints:

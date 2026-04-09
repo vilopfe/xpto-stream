@@ -14,14 +14,14 @@ public class ProcessUserEventUseCaseImpl implements ProcessUserEventUseCase {
     @Override
     public void execute(UserEvent event) {
         // Validação defensiva do contrato
-        if (event == null || event.type() == null) {
+        if (event == null || event.eventType() == null) {
             throw new IllegalArgumentException("[CONTRATO INVÁLIDO] UserEvent ou EventType não podem ser nulos");
         }
         
         Objects.requireNonNull(event.userId(), "userId é obrigatório");
         Objects.requireNonNull(event.category(), "category é obrigatório");
         
-        long points = event.type().getPoints();
+        long points = event.eventType().getPoints();
         repository.saveIncremental(event.userId(), event.category(), points);
     }
 }
