@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class UserInterest {
     private String userId;
-    private Map<String, Integer> interests = new HashMap<>();
+    private Map<String, Integer> interest = new HashMap<>();
     private int totalPoints = 0;
 
     public UserInterest(String userId) {
@@ -20,12 +20,12 @@ public class UserInterest {
         this.userId = userId;
     }
 
-    public Map<String, Integer> getInterests() {
-        return interests;
+    public Map<String, Integer> getinterest() {
+        return interest;
     }
 
-    public void setInterests(Map<String, Integer> interests) {
-        this.interests = interests;
+    public void setinterest(Map<String, Integer> interest) {
+        this.interest = interest;
     }
 
     public int getTotalPoints() {

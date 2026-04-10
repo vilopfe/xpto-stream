@@ -41,5 +41,5 @@ services:
       - |
         apk add --no-cache aws-cli;
         sleep 5;
-        aws dynamodb create-table --table-name user_interests --attribute-definitions AttributeName=userId,AttributeType=S AttributeName=category,AttributeType=S --key-schema AttributeName=userId,KeyType=HASH AttributeName=category,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 --endpoint-url http://dynamodb-local:8000 --region us-east-1 || echo 'Tabela ja existe';
+        aws dynamodb create-table --table-name user_interest --attribute-definitions AttributeName=userId,AttributeType=S AttributeName=category,AttributeType=S --key-schema AttributeName=userId,KeyType=HASH AttributeName=category,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 --endpoint-url http://dynamodb-local:8000 --region us-east-1 || echo 'Tabela ja existe';
         echo '🚀 Setup do DynamoDB finalizado com sucesso!';

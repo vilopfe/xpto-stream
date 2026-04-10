@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 public class XptoStreamApplication {
 
     @Bean
-    public UserInterestRepository userInterestRepository(DynamoDbClient dynamoDbClient, @Value("${dynamodb.table:user-interest}") String tableName) {
+    public UserInterestRepository userInterestRepository(DynamoDbClient dynamoDbClient, @Value("${dynamodb.table:user_interest}") String tableName) {
         return new DynamoDbUserInterestRepository(dynamoDbClient, tableName);
     }
 

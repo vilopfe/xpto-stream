@@ -1,6 +1,4 @@
 package com.xptostream.infra.config;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -14,16 +12,12 @@ import java.net.URI;
 public class DynamoDbConfig {
 
     @Bean
-    public DynamoDbClient dynamoDbClient(
-            @Value("${aws.dynamodb.endpoint:http://localhost:8000}") String endpoint,
-            @Value("${aws.region:us-east-1}") String region
-    ) {
+    public DynamoDbClient dynamoDbClient() {
         return DynamoDbClient.builder()
-                .endpointOverride(URI.create(endpoint))
-                .region(Region.of(region))
-                .credentialsProvider(StaticCredentialsProvider.create(
-                        AwsBasicCredentials.create("dummy", "dummy")
-                ))
-                .build();
+            .endpointOverride(URI.create("http://127.0.0.1:8000"))
+            .region(Region.US_EAST_1)
+            .credentialsProvider(StaticCredentialsProvider.create(
+                AwsBasicCredentials.create("fakeMyKey", "fakeMySecret")))
+            .build();
     }
 }

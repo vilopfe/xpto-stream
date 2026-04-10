@@ -5,6 +5,8 @@ import org.junit.jupiter.api.*;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
+
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
@@ -20,11 +22,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Testcontainers
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UserInterestRepositoryIT {
-    private static final String TABLE_NAME = "UserInterest";
+    private static final String TABLE_NAME = "user_interest";
 
     @Container
-    private static final GenericContainer<?> dynamoDB = new GenericContainer<>("amazon/dynamodb-local:latest")
-            .withExposedPorts(8000);
+    private static final GenericContainer<?> dynamoDB = createContainer();
+
+    private static GenericContainer<?> createContainer() {
+        GenericContainer<?> container = new GenericContainer<>(DockerImageName.parse("amazon/dynamodb-local:latest"));
+        container.withExposedPorts(8000);
+        return container;
+        }
 
     private DynamoDbClient dynamoDbClient;
     private UserInterestRepository repository;
@@ -37,7 +44,7 @@ public class UserInterestRepositoryIT {
                 .endpointOverride(URI.create(endpoint))
                 .region(Region.US_EAST_1)
                 .credentialsProvider(StaticCredentialsProvider.create(
-                        AwsBasicCredentials.create("dummy", "dummy")
+                        AwsBasicCredentials.create("fakeMyKey", "fakeMySecret")
                 ))
                 .build();
 

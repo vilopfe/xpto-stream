@@ -6,9 +6,11 @@ spring:
   threads:
     virtual:
       enabled: true
+  profiles:
+    active: dev
   cloud:
     function:
-      definition: userEventConsumer # EXATAMENTE o nome do seu @Bean
+      definition: userEventConsumer 
     stream:
       bindings:
         userEventConsumer-in-0:
@@ -18,14 +20,16 @@ spring:
       kafka:
         binder:
           brokers: localhost:9092
-      aws:
-        region:
-          static: us-east-1
-        credentials:
-          access-key: "fakeMyKey"
-          secret-key: "fakeMySecret"
-        dynamodb:
-          endpoint: http://localhost:8000
+    aws:
+      region:
+        static: us-east-1
+      credentials:
+        access-key: fakeMyKey
+        secret-key: fakeMySecret
+      dynamodb:
+        ##endpoint: http://localhost:8000 - Using IP loopback instead localhost to avoid issues with Docker on Windows
+        endpoint: http://127.0.0.1:8000
+        table-name: user_interest
 
 management:
   endpoints:
