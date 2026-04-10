@@ -45,34 +45,6 @@ The project is built on **Clean Architecture** principles, ensuring the business
 * **DynamoDB Local:** NoSQL persistence leveraging **Atomic Increments** to ensure data consistency under high concurrency.
 * **Testcontainers:** Integration testing environment identical to production, spinning up real instances via Docker during build.
 
-```mermaid
-graph TD
-    subgraph "xpto-entrypoints (Adapters In)"
-        A[KafkaConsumer] -->|Drives| UC
-        B[RestApi] -->|Drives| UC
-    end
-
-    subgraph "xpto-core (Domain & Business Logic)"
-        UC[UseCase Implementation] -->|Uses| P[Ports/Interfaces]
-        D[Domain Models] --- UC
-    end
-
-    subgraph "xpto-infra (Adapters Out)"
-        P -->|Implemented by| R[DynamoDbRepository]
-        C[Infrastructure Config] -.-> R
-    end
-
-    subgraph "xpto-app (Orchestration)"
-        APP[Main/Configuration] -->|Wires up| UC
-        APP -->|Wires up| R
-    end
-
-    %% Estilização
-    style D fill:#f9f,stroke:#333,stroke-width:2px
-    style UC fill:#bbf,stroke:#333,stroke-width:2px
-    style P fill:#bbf,stroke:#333,stroke-width:2px
-```
-
 
 ### 📊 Scoring Logic
 | Event | Description | Score |
